@@ -7,7 +7,7 @@ linkLookup = {}
 
 # are these two nodes linked?
 nodesLinked = (d, g) ->
-  d.id == g.id || linkLookup["#{d.id},#{g.id}"] == 1 || linkLookup["#{g.id},#{d.id}"] == 1
+  d.index == g.index || linkLookup["#{d.index},#{g.index}"] == 1 || linkLookup["#{g.index},#{d.index}"] == 1
 
 tick = () ->
   # keep nodes constrained to their box
@@ -51,8 +51,9 @@ legend = svg.append('svg:text')
             .attr('class', 'legend')
             .attr('x', 5)
             .attr('y', 20)
+            .attr('width', 100)
 
-d3.json '/public/data/episode1.json', (graph) ->
+d3.json 'public/data/season1.json', (graph) ->
   force
     .nodes(graph.nodes)
     .links(graph.links)
@@ -74,7 +75,7 @@ d3.json '/public/data/episode1.json', (graph) ->
             .on('mouseout', fade(1))
             .call(force.drag)
 
-  @node.append('svg:circle').attr('r', (d) -> 3 + d.total_time)#.style('fill', (d) -> color(d.group) )
+  @node.append('svg:circle').attr('r', (d) -> (3 + d.total_time) / 10)#.style('fill', (d) -> color(d.group) )
 
   # node.append('title').text((d) -> d.name )
   @node.append("svg:text").attr('x', 12).attr('dy', '.35em').text (d) -> d.name
